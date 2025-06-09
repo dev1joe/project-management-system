@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
     import Layout from '../Shared/Layout.vue';
     import Paginator from '../Shared/Paginator.vue';
 
@@ -8,108 +8,195 @@
 
     defineProps({
         tasks: Object,
+        numPages: Number
     });
 </script>
 
 <template>
-    <!-- Create Modal -->
-    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="createModalLabel">Product Information</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+    <section class="container px-4 mx-auto">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <div>
+                <div class="flex items-center gap-x-3">
+                    <h2 class="text-lg font-medium text-gray-800 dark:text-white">Tasks</h2>
+
+                    <span
+                        class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">240 task</span>
                 </div>
-                <div class="modal-body">
-                    <div>
-                        <label for="productName" class="d-block">Enter Product Name</label>
-                        <input type="text" id="productName" class="form-control"
-                               placeholder="Enter Product Name">
-                        <div id="nameError" class="d-none invalid-feedback">name can contain letters,
-                            numbers, dots, apostrophes, hyphens</div>
+            </div>
+
+            <div class="flex items-center mt-4 gap-x-3">
+                <button
+                    class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_3098_154395)">
+                            <path
+                                d="M13.3333 13.3332L9.99997 9.9999M9.99997 9.9999L6.66663 13.3332M9.99997 9.9999V17.4999M16.9916 15.3249C17.8044 14.8818 18.4465 14.1806 18.8165 13.3321C19.1866 12.4835 19.2635 11.5359 19.0351 10.6388C18.8068 9.7417 18.2862 8.94616 17.5555 8.37778C16.8248 7.80939 15.9257 7.50052 15 7.4999H13.95C13.6977 6.52427 13.2276 5.61852 12.5749 4.85073C11.9222 4.08295 11.104 3.47311 10.1817 3.06708C9.25943 2.66104 8.25709 2.46937 7.25006 2.50647C6.24304 2.54358 5.25752 2.80849 4.36761 3.28129C3.47771 3.7541 2.70656 4.42249 2.11215 5.23622C1.51774 6.04996 1.11554 6.98785 0.935783 7.9794C0.756025 8.97095 0.803388 9.99035 1.07431 10.961C1.34523 11.9316 1.83267 12.8281 2.49997 13.5832"
+                                stroke="currentColor" stroke-width="1.67" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_3098_154395">
+                                <rect width="20" height="20" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                    <span>Import</span>
+                </button>
+
+                <button
+                    class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+
+                    <span>Add vendor</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-6 md:flex md:items-center md:justify-between">
+            <div
+                class="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
+                <button
+                    class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:bg-gray-800 dark:text-gray-300">
+                    View all
+                </button>
+
+                <button
+                    class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
+                    Monitored
+                </button>
+
+                <button
+                    class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
+                    Unmonitored
+                </button>
+            </div>
+
+            <div class="relative flex items-center mt-4 md:mt-0">
+            <span class="absolute">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+            </span>
+
+                <input type="text" placeholder="Search"
+                       class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
+            </div>
+        </div>
+
+        <div class="flex flex-col mt-6">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                <th scope="col"
+                                    class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <button class="flex items-center gap-x-3 focus:outline-none">
+                                        <span>Task</span>
+
+                                        <svg class="h-3" viewBox="0 0 10 11" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2.13347 0.0999756H2.98516L5.01902 4.79058H3.86226L3.45549 3.79907H1.63772L1.24366 4.79058H0.0996094L2.13347 0.0999756ZM2.54025 1.46012L1.96822 2.92196H3.11227L2.54025 1.46012Z"
+                                                fill="currentColor" stroke="currentColor" stroke-width="0.1" />
+                                            <path
+                                                d="M0.722656 9.60832L3.09974 6.78633H0.811638V5.87109H4.35819V6.78633L2.01925 9.60832H4.43446V10.5617H0.722656V9.60832Z"
+                                                fill="currentColor" stroke="currentColor" stroke-width="0.1" />
+                                            <path
+                                                d="M8.45558 7.25664V7.40664H8.60558H9.66065C9.72481 7.40664 9.74667 7.42274 9.75141 7.42691C9.75148 7.42808 9.75146 7.42993 9.75116 7.43262C9.75001 7.44265 9.74458 7.46304 9.72525 7.49314C9.72522 7.4932 9.72518 7.49326 9.72514 7.49332L7.86959 10.3529L7.86924 10.3534C7.83227 10.4109 7.79863 10.418 7.78568 10.418C7.77272 10.418 7.73908 10.4109 7.70211 10.3534L7.70177 10.3529L5.84621 7.49332C5.84617 7.49325 5.84612 7.49318 5.84608 7.49311C5.82677 7.46302 5.82135 7.44264 5.8202 7.43262C5.81989 7.42993 5.81987 7.42808 5.81994 7.42691C5.82469 7.42274 5.84655 7.40664 5.91071 7.40664H6.96578H7.11578V7.25664V0.633865C7.11578 0.42434 7.29014 0.249976 7.49967 0.249976H8.07169C8.28121 0.249976 8.45558 0.42434 8.45558 0.633865V7.25664Z"
+                                                fill="currentColor" stroke="currentColor" stroke-width="0.3" />
+                                        </svg>
+                                    </button>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    Priority
+                                </th>
+
+                                <th scope="col"
+                                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    Status
+                                </th>
+
+                                <th scope="col"
+                                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    Description
+                                </th>
+
+                                <th scope="col"
+                                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    actions
+                                </th>
+
+                                <th scope="col" class="relative py-3.5 px-4">
+                                    <span class="sr-only">Edit</span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                <tr v-for="t in tasks.data" :key="t.id" data-id="{{ t.id }}" class="text-start">
+                                    <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                                        <div>
+                                            <h2 class="font-medium text-gray-800 dark:text-white ">{{ t.name }}</h2>
+                                            <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                                catalogapp.io</p>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-sm font-medium whitespace-nowrap">
+                                        <div
+                                            class="attr" :class="t.priority == 1 ? 'attr-success' : t.priority == 2 ? 'attr-warn' : 'attr-danger'">
+                                            {{ t.priority }}
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-sm font-medium whitespace-nowrap">
+                                        <div
+                                            class="attr" :class="t.status == 'C' ? 'attr-success' : t.status == 'P' ? 'attr-warn' : 'attr-danger'">
+                                            {{ t.status }}
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-sm whitespace-nowrap">
+                                        <p class="font-normal text-gray-600 dark:text-gray-400">
+                                            {{ t.description }}
+                                        </p>
+                                    </td>
+
+                                    <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                        <button class="bg-white dark:text-white dark:bg-gray-900 dark:border-yellow-700 dark:hover:bg-yellow-800 rounded-lg hover:bg-gray-100 duration-300 transition-colors border px-4 py-2.5 me-4">Edit</button>
+                                        <button class="bg-white dark:text-white dark:bg-gray-900 dark:border-red-700 dark:hover:bg-red-800 rounded-lg hover:bg-gray-100 duration-300 transition-colors border px-4 py-2.5">Delete</button>
+                                    </td>
+
+<!--                                    <td class="px-4 py-4 text-sm whitespace-nowrap">-->
+<!--                                        <button-->
+<!--                                            class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">-->
+<!--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"-->
+<!--                                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">-->
+<!--                                                <path stroke-linecap="round" stroke-linejoin="round"-->
+<!--                                                      d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />-->
+<!--                                            </svg>-->
+<!--                                        </button>-->
+<!--                                    </td>-->
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div>
-                        <label for="productPrice" class="d-block">Enter Product Price</label>
-                        <input type="text" id="productPrice" class="form-control"
-                               placeholder="Enter Product Price">
-                        <div id="priceError" class="d-none invalid-feedback">price must be between 1000 &
-                            10000</div>
-                    </div>
-                    <div>
-                        <label for="productCategory" class="d-block">Enter Product Category</label>
-                        <input type="text" id="productCategory" class="form-control"
-                               placeholder="Enter Product Category">
-                        <div id="categoryError" class="d-none invalid-feedback">category can have letters,
-                            numbers,
-                        </div>
-                    </div>
-                    <div>
-                        <label for="productDesc" class="d-block">Enter Product Desc</label>
-                        <input type="text" id="productDesc" class="form-control"
-                               placeholder="Enter Product Desc">
-                        <div id="descError" class="d-none invalid-feedback">description can contain
-                            letters,numbers, symbols</div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="closeButton" data-bs-dismiss="modal"
-                            onclick="resetForm()">Close</button>
-                    <button type="button" class="btn btn-primary" id="createButton"
-                            onclick="createProduct()">Create Product</button>
-                    <button type="button" class="btn btn-primary d-none" id="updateButton"
-                            onclick="updateProduct()">Update Product</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Product Content -->
-    <h1>Product CRUD Operations</h1>
-    <div class="d-flex justify-content-between text-center my-4">
-        <input oninput="searchProduct()" type="search" id="searchInput"
-               class="form-control w-50" placeholder="Search">
-        <button class="btn btn-dark" id="newButton" data-bs-toggle="modal"
-                data-bs-target="#createModal">New Product</button>
-    </div>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">name</th>
-            <th scope="col">priority</th>
-            <th scope="col">status</th>
-            <th scope="col">desc</th>
-            <th scope="col">actions</th>
-        </tr>
-        </thead>
-        <tbody id="tableBody">
-            <tr v-for="t in tasks.data" :key="t.id" data-id="{{ t.id }}">
-                <th scope="row">{{ t.id }}</th>
-                <td>{{ t.name }}</td>
-                <td>{{ t.priority }}</td>
-                <td>{{ t.status }}</td>
-                <td>{{ t.description }}</td>
-                <td>
-                    <button class="btn btn-warning me-1 update-btn" data-bs-toggle="modal" data-bs-target="#createModal">Edit</button>
-                    <button class="btn btn-danger delete-btn">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- paginator -->
-    <Paginator :links="tasks.links" />
+        <!-- Paginator -->
+        <Paginator :links="tasks.links" :numPages="numPages" />
+    </section>
 </template>
 
 <style scoped>
-    tbody {
-        font-size: 0.75rem;
-    }
 
-    tbody button {
-        font-size: 0.75rem;
-    }
 </style>

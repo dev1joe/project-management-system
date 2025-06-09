@@ -13,8 +13,12 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/tasks', function () {
+
+    $tasks = Task::Paginate(10);
+
     return Inertia::render('Tasks', [
-        'tasks' => Task::Paginate(10),
+        'tasks' => $tasks,
+        'numPages' => $tasks->lastPage(),
     ]);
 });
 
@@ -25,6 +29,10 @@ Route::get('/projects', function () {
 
 Route::get('/orders', function () {
     return Inertia::render('Orders', []);
+});
+
+Route::get('/test', function() {
+    return Inertia::render('Sidebar', []);
 });
 
 //Route::post('/post', function () {

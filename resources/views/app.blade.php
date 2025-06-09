@@ -44,8 +44,6 @@
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
-        <section class="p-8 box-border">
-            @inertia
-        </section>
+        @inertia
     </body>
 </html>
