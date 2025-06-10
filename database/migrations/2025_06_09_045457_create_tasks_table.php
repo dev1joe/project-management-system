@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tasks', function (Blueprint $table) {
+            // TODO: add start and end dates for both the task and the project
             $table->id();
             $table->string('project_id')->nullable();
             $table->string('name', 255);

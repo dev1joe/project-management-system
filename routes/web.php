@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Task;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,11 +15,24 @@ Route::get('/', function () {
 
 Route::get('/tasks', function () {
 
-    $tasks = Task::Paginate(10);
+    $tasks = Task::query()
+        ->when(Request::input('search'), function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%");
+        })
+        ->paginate(10)
+        ->withQueryString()
+        ->through(fn ($task) => [
+            'id' => $task->id,
+            'name' => $task->name,
+            'description' => $task->description,
+            'priority' => $task->priority,
+            'status' => $task->status,
+        ]);
 
     return Inertia::render('Tasks', [
         'tasks' => $tasks,
         'numPages' => $tasks->lastPage(),
+        'filters' => Request::only('search'),
     ]);
 });
 

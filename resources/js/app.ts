@@ -1,4 +1,4 @@
-import '../css/app.tailwind.css';
+import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -15,6 +15,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            // use .component() to register a component globally
             .use(ZiggyVue)
             .mount(el);
     },

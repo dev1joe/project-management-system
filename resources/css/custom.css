@@ -1,0 +1,25 @@
+/* resources/css/custom.css */
+
+.sidebar-active {
+    @apply text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-200;
+}
+
+.sidebar-inactive {
+    @apply text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700;
+}
+
+.attr {
+    @apply gap-x-2 rounded-full inline px-3 py-1 text-sm font-normal;
+}
+
+.attr-success {
+    @apply text-emerald-500  bg-emerald-100/60 dark:bg-gray-800;
+}
+
+.attr-warn {
+    @apply text-yellow-500 gap-x-2 bg-yellow-100/60 dark:bg-gray-800;
+}
+
+.attr-danger {
+    @apply text-red-500 gap-x-2 bg-red-100/60 dark:bg-gray-800;
+}
