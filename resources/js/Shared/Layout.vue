@@ -16,7 +16,7 @@
         <Sidebar class="min-h-screen" />
 
         <!-- Content -->
-        <div class="p-8 bg-gray-900 w-full min-h-screen text-black text-center overflow-hidden">
+        <div class="p-8 bg-gray-900 w-full min-h-screen text-white text-center overflow-hidden">
             <slot />
         </div>
     </div>
